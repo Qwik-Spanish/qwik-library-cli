@@ -6,6 +6,9 @@ import path from 'path';
 import inquirer from 'inquirer';
 import shell from 'shelljs';
 import chalk from 'chalk';
+import { intro } from '@clack/prompts';
+import colors from 'picocolors';
+import { GIT_IGNORE } from './utils/git-ignore.content';
 
 // Take different template options to create new project
 
@@ -15,18 +18,18 @@ const QUESTIONS = [
   {
     name: 'template',
     type: 'list',
-    message: '¿Qué tipo de project quieres generar?',
+    message: 'Select project template',
     choices: TEMPLATE_OPTIONS,
   },
   {
     name: 'project',
     type: 'input',
-    message: '¿Cuál es el nombre del proyecto?',
+    message: 'What is the name of the project?',
     validate: function (input: string) {
       if (/^([a-z@]{1}[a-z\-\.\\\/0-9]{0,213})+$/.test(input)) {
         return true;
       }
-      return 'El nombre del project solo puede tener 214 carácteres y tiene que empezar en minúsculas o con una arroba';
+      return 'The project name can only have 214 characters and must start with a lowercase letter or an at sign.';
     },
   },
   /*{
@@ -45,6 +48,10 @@ const QUESTIONS = [
         message: 'Desarrollador - Email'
     }*/
 ];
+
+intro(
+  colors.inverse(`Qwik Library Generator CLI by ${colors.yellow(' Anartz Mugika Ledo - @mugan86 ')}`)
+)
 
 const ACTUAL_DIRECTORY = process.cwd();
 inquirer.prompt(QUESTIONS).then((answers) => {
@@ -65,7 +72,7 @@ function createProject(projectPath: string) {
   // Comprobar que no existe el directorio
   if (fs.existsSync(projectPath)) {
     console.log(
-      chalk.red('No puedes crear el project porque ya existe, intenta con otro')
+      chalk.red('The project cannot be created because it already exists. Please try with a different name.')
     );
     return false;
   }
@@ -113,21 +120,22 @@ function postProccess(templatePath: string, targetPath: string) {
   const isNode = fs.existsSync(path.join(templatePath, 'package.json'));
 
   if (isNode) {
+    // Contenido del archivo .gitignore
+    const gitignoreContent = GIT_IGNORE;
     shell.cd(targetPath);
     isNode && shell.exec('git init');
-    console.log(chalk.green(`Instalando las dependencias en ${targetPath}`));
-    const result = shell.exec('yarn');
+    // We have created the .gitignore file.
+    shell.ShellString(gitignoreContent).to('.gitignore');
+    // Verifying if the .gitignore file was created correctly...
+    if (shell.test('-f', '.gitignore')) {
+      console.log(`${colors.green(' .gitignore create correctly ')}`);
+    } else {
+      console.error('Error al crear el archivo .gitignore.');
+    }
+    console.log(chalk.green(`Installing the dependencies in ${targetPath}`));
+    const result = shell.exec('npm install');
     if (result.code != 0) {
       return false;
     }
   }
 }
-
-/**
- * 
-
-
-
-
-
- */

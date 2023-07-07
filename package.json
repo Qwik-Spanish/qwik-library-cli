@@ -1,15 +1,21 @@
 {
   "name": "@mugan86/qwik-library-cli",
-  "version": "1.0.0",
-  "description": "Proyecto donde se añaden las diferentes plantillas con configuraciones que tendremos para diferentes tipos de librerías de Qwik",
+  "version": "0.0.1",
+  "description": "Project where different templates with configurations for various Qwik library types are added.",
   "main": "build/index.js",
   "license": "MIT",
   "scripts": {
     "start": "npx ts-node ./src/index.ts",
-    "clean": "rm -rf build",
+    "clean": "rm -rf build && npm cache clean --force",
     "build": "npx tsc && ncp ./src/templates ./build/templates",
-    "build:prod": "yarn clean && yarn build",
-    "prod": "yarn build:prod && yarn pack"
+    "build:prod": "npm run clean && npm run build",
+    "prod": "npm run build:prod && npm pack"
+  },
+  "files": [
+    "build"
+  ],
+  "directories": {
+    "lib": "build"
   },
   "author": {
     "name": "Anartz Mugika Ledo",
@@ -17,9 +23,11 @@
     "url": "https://github.com/mugan86"
   },
   "dependencies": {
+    "@clack/prompts": "^0.6.3",
     "chalk": "4.1.2",
     "ejs": "^3.1.8",
     "inquirer": "8",
+    "picocolors": "^1.0.0",
     "shelljs": "^0.8.5"
   },
   "bin": {
