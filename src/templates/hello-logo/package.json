@@ -28,9 +28,9 @@
   "private": false,
   "type": "module",
   "author": {
-    "name": "Anartz Mugika Ledo",
-    "email": "mugan86@gmail.com",
-    "url": "https://github.com/mugan86"
+    "name": "<%= author %>",
+    "email": "<%= email %>",
+    "url": "<%= webpage %>"
   },
   "scripts": {
     "build": "qwik build && rm -rf ./types",
@@ -47,7 +47,7 @@
     "pack": "rm -rf dist && npm cache clean --force && npm run build && npm pack"
   },
   "devDependencies": {
-    "@builder.io/qwik": "1.1.5",
+    "@builder.io/qwik": ">= 1 <=1.2.5",
     "@types/eslint": "8.40.0",
     "@types/node": "^20.2.5",
     "@typescript-eslint/eslint-plugin": "5.59.8",

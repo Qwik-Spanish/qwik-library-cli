@@ -32,21 +32,21 @@ const QUESTIONS = [
       return 'The project name can only have 214 characters and must start with a lowercase letter or an at sign.';
     },
   },
-  /*{
-        name: 'github',
-        type: 'input',
-        message: 'Usuario Github'
-    },
-    {
-        name: 'author',
-        type: 'input',
-        message: 'Desarrolador - Nombre y Apellidos'
-    },
-    {
-        name: 'email',
-        type: 'input',
-        message: 'Desarrollador - Email'
-    }*/
+  {
+    name: 'author',
+    type: 'input',
+    message: 'Package Author - Name and Lastname'
+  },
+  {
+    name: 'email',
+    type: 'input',
+    message: 'Author - Email'
+  },
+  {
+    name: 'webpage',
+    type: 'input',
+    message: 'Author - Webpage'
+  }
 ];
 
 intro(
@@ -55,15 +55,21 @@ intro(
 
 const ACTUAL_DIRECTORY = process.cwd();
 inquirer.prompt(QUESTIONS).then((answers) => {
-  const template = answers['template'];
-  const project = answers['project'];
+  // const template = answers['template'];
+  // const project = answers['project'];
+  const { project, template, author, email, webpage } = answers;
+  console.log(answers)
 
   const templatePath = path.join(__dirname, 'templates', template);
   const pathTarget = path.join(ACTUAL_DIRECTORY, project);
   console.log(template, project, templatePath, pathTarget);
   if (!createProject(pathTarget)) return;
 
-  createDirectoriesFilesContent(templatePath, project);
+  createDirectoriesFilesContent(templatePath, project, {
+    author,
+    email,
+    webpage
+  });
 
   postProccess(templatePath, pathTarget);
 });
@@ -82,8 +88,11 @@ function createProject(projectPath: string) {
 
 function createDirectoriesFilesContent(
   templatePath: string,
-  projectName: string
+  projectName: string,
+  renderData: { author: string; email: string; webpage: string }
 ) {
+
+
   const listFileDirectories = fs.readdirSync(templatePath);
 
   listFileDirectories.forEach((item) => {
@@ -96,7 +105,7 @@ function createDirectoriesFilesContent(
     if (stats.isFile()) {
       let contents = fs.readFileSync(originalPath, 'utf-8');
       try {
-        contents = render(contents, { projectName }); // values use to implement in templates dinamically
+        contents = render(contents, { projectName, ...renderData }); // values use to implement in templates dinamically
       } catch (e) {
         contents = fs.readFileSync(originalPath, 'utf-8');
       }
@@ -110,7 +119,8 @@ function createDirectoriesFilesContent(
       fs.mkdirSync(writePath);
       createDirectoriesFilesContent(
         path.join(templatePath, item),
-        path.join(projectName, item)
+        path.join(projectName, item),
+        renderData
       );
     }
   });

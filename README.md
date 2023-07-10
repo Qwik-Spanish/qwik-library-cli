@@ -1,6 +1,9 @@
 # Qwik Library Generator from  CLI
 
-[Link to access NPM Package to install]
+![npm](https://img.shields.io/npm/v/@mugan86/qwik-library-cli)
+
+Package: https://www.npmjs.com/package/@mugan86/qwik-library-cli
+
 
 ## ESPAÑOL
 
@@ -14,10 +17,10 @@ Para poder trabajar con el CLI y generar proyectos de librería con agilidad, de
 
 #### Ejecutar sin instalar nada
 
-Descargamos el fichero `@mugan86/qwik-library-cli-0.0.1.tgz` y ejecutamos:
+Descargamos el fichero `mugan86-qwik-library-cli-0.0.1.tgz` del directorio de raíz y ejecutamos:
 
 ```bash
-npx @mugan86/qwik-library-cli-0.0.1.tgz
+npx ./mugan86-qwik-library-cli-0.0.1.tgz
 ```
 
 #### Instalando el CLI en nuestro equipo

@@ -33,9 +33,9 @@
   "private": false,
   "type": "module",
   "author": {
-    "name": "Anartz Mugika Ledo",
-    "email": "mugan86@gmail.com",
-    "url": "https://github.com/mugan86"
+    "name": "<%= author %>",
+    "email": "<%= email %>",
+    "url": "<%= webpage %>"
   },
   "scripts": {
     "build": "qwik build && rm -rf ./types",
