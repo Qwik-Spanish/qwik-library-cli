@@ -4,13 +4,8 @@ import {
   useSignal,
   useStyles$,
   useVisibleTask$,
-} from "@builder.io/qwik";
-import { tileLayer, Map, marker } from "leaflet";
-
-export interface SizeProps {
-  width?: string;
-  height?: string;
-}
+} from '@builder.io/qwik';
+import { tileLayer, Map, marker } from 'leaflet';
 
 export const LeafletMap = component$(({ location }: any) => {
   useStyles$(`
@@ -25,7 +20,7 @@ export const LeafletMap = component$(({ location }: any) => {
   useVisibleTask$(async ({ track }) => {
     track(location);
 
-    const { getBoundaryBox } = await import("../../helpers/boundary-box");
+    const { getBoundaryBox } = await import('../../helpers/boundary-box');
 
     if (location && window) {
       if (mapContainer$.value) {
@@ -39,12 +34,12 @@ export const LeafletMap = component$(({ location }: any) => {
         number
       ];
 
-      const map: any = new Map("map").setView(
+      const map: any = new Map('map').setView(
         centerPosition,
         locationData.zoom
       );
 
-      tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution:
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -58,5 +53,5 @@ export const LeafletMap = component$(({ location }: any) => {
       mapContainer$.value = noSerialize(map);
     }
   });
-  return <div id="map"></div>;
+  return <div id='map'></div>;
 });
