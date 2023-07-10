@@ -1,17 +1,21 @@
-# Qwik Library - Base - by Anartz Mugika Ledo ⚡️
+# Qwik Leaflet Map Library Template - by Anartz Mugika Ledo ⚡️
 
-Next I will add all the information we need to know to be able to work with the development of libraries in Qwik.
+Next I will add all the information that we need to know to be able to work with the development of libraries in Qwik and also to add functionalities of Leaflet Maps, which is the type of library that we have as a base.
 
-Here I leave the links of interest about Qwik such as documentation, support,...
+Here I leave the links of interest about Qwik as documentation, support,...
 
 - [Qwik Docs](https://qwik.builder.io/)
 - [Discord](https://qwik.builder.io/chat)
 - [Qwik on GitHub](https://github.com/BuilderIO/qwik)
 - [@QwikDev](https://twitter.com/QwikDev)
-- [Vite](https://vitejs.dev/)
-- [Partytown](https://partytown.builder.io/)
-- [Mitosis](https://github.com/BuilderIO/mitosis)
 - [Builder.io](https://www.builder.io/)
+
+Here you have all the resources that I find interesting in order to obtain the necessary knowledge about Leaflet:
+
+- [Leaflet Official Documentation](https://leafletjs.com/reference.html)
+- [Leaflet Tutorials](https://leafletjs.com/examples.html)
+- [Leaflet from scratch (Spanish)](https://www.youtube.com/watch?v=_rQH9EwUwn4&list=PLaaTcPGicjqgLAUhR_grKBGCXbyKaP7qR)
+- [Angular Leaflet Map Library (To inspired ideas)](https://mugan86.github.io/ng-leaflet/en/demos-ejemplos)
 
 ---
 
@@ -25,107 +29,35 @@ Inside your project, you'll see the following directories and files:
 
 └── src/
     ├── components/
-    │   |── counter
-        |    └── index.tsx
-    │   └── logo
-    |        └── index.tsx
+    │   └── leaflet-map
+    |       └── index.tsx
+    ├── helpers/
+    │       ├── boundary-box.ts
+    │       ├── layers-manage.ts
+    |       └── zoom-config.ts
+    ├── models/
+    │       ├── control.ts
+    |       └── location.ts
     ...
     ├── root.tsx
     └── index.ts
 ```
 
-- `src/components`: Recommended directory for components. By default, this directory has two basic base components, so that we can improve them and/or build on them to create our own.
+- `src/components`: Recommended directory for components. By default, this directory has a basic base component to work with the "Leaflet Map" library to display a basic map, leaving the option for us to expand it with our knowledge and/or needs.
 
 - `index.ts`: The entry point of your component library, make sure that all components, classes, interfaces, etc, that will be public are exported from this file.
 
 - `root.tsx`: We can use this file to test the components created while we are developing to facilitate the process and make testing more agile, before packaging it for distribution. To test it we only have to execute the command `npm start` or `npm dev`.
 
-
 ## After developing the library
 
-Once we have already tested our components, hooks and other elements, it is time to think about sending it to production.
+I recommended read [this article](https://medium.com/@mugan86/qwik-creando-librer%C3%ADa-y-publicar-en-npm-428afd4cf3ff) (in Spanish, comming soon in English).
 
-Before going directly to upload it to NPM (or Github Packages) it is interesting that we can generate the package locally and consume it by installing it in another project that we are going to create from scratch.
+## Contact info
 
-### Create production build
+In this section I provide you with the different ways to follow me and/or be able to contact me to collaborate (not consultancies, I receive e-mails of this style to help create projects and for free, I don't have time)
 
-The production build should generate the production build of your component library in (`./dist`) and the typescript type definitions in (`./dist/types`).
-
-```bash
-npm run build
-```
-
-If we wanted to try simulating in production, we must create the `tgz` file locally
-
-This would be practically the same as trying to install a package from any repository such as NPM, but in this case we will do it with the relative reference of the `tgz` extension file.
-
-### Create our package
-
-To create the compiled package with the `tgz` extension, we must first make sure that the version of our package and its name are correct.
-
-Below is a **list of rules that valid npm package name** should conform to.
-
-- package name length should be greater than zero
-- all the characters in the package name must be lowercase i.e., no uppercase or mixed case names are allowed
-- package name can consist of hyphens
-- package name must not contain any non-url-safe characters (since name ends up being part of a URL)
-- package name should not start with . or _
-- package name should not contain any spaces
-- package name should not contain any of the following characters: `~)('!*`
-- package name cannot be the same as a node.js/io.js core module nor a reserved/blacklisted name. For example, the following names are invalid: `http`, `stream`, `node_modules`, `favicon.ico`
-- package name **length cannot exceed 214**
-
-To **manage versions**, we work with the [semantic versioning convention](https://semver.org/).
-
-Given a version number `MAJOR`.`MINOR`.`PATCH`, increment the:
-
-- `MAJOR` version when you make incompatible API changes
-`MINOR` version when you add functionality in a backward compatible manner
-- `PATCH` version when you make backward compatible bug fixes
-Additional labels for pre-release and build metadata are available as extensions to the `MAJOR`.`MINOR`.`PATCH` format.
-
-This will be managed, for each new version we will add the corresponding value depending on what has been done, if they have been minor or more relevant changes.
-
-Remember, it always has to be GREATER than the previous version.
-
-For example:
-
-- From 1.0.0 to 1.0.1 (Valid)
-- From 1.0.1 to 1.0.0 (Invalid)
-
-If we want to consume the created library, we need to generate the `*.tgz` file, which will be generated with the result `<package-name>.<package-version>.tgz` (Package name and version defined in `package.json` file).
-
-If our package has this data in the package.json:
-
-name: `qwik-library`
-version: `1.0.0`
-
-Running `npm run pack` generates a file called `qwik-library-1.0.0.tgz`
-
-
-### How to consume the generated library for testing locally
-
-First, we must create a project in Qwik using the following command:
-
-```bash
-npm create qwik@latest
-```
-
-We have the new project created to test it and once the tgz package is generated, we need to take this file, add it to the root of this project and execute it using the relative path of the `*.tgz` library to consume it in the new application.
-
-!['New project that use to consume library](docs/screens/01-new-project.png)
-
-Run this command:
-
-```bash
-npm i <PATH tgz package> 
-
-# if we have brought the file to the root directory of our new project
-npm i ./qwik-library-1.0.0.tgz
-```
-
-If the whole process has gone correctly, it should appear like this:
-
-![Install proccess OK](docs/screens/02-install-ok.png)
-
-**Pending to finish**
+- Github: [mugan86](https://github.com/mugan86)
+- Medium Tech Blog: [mugan86](https://mugan86.medium.com/)
+- Youtube: [mugan86](https://www.youtube.com/mugan86)
+- Twitter: [mugan86](https://twitter.com/mugan86)
