@@ -10,55 +10,26 @@ import { intro } from '@clack/prompts';
 import colors from 'picocolors';
 import { GIT_IGNORE } from './utils/git-ignore.content';
 
+import { getQuestions } from './constants/questions';
+
 // Take different template options to create new project
 
 const TEMPLATE_OPTIONS = fs.readdirSync(path.join(__dirname, 'templates'));
 
-const QUESTIONS = [
-  {
-    name: 'template',
-    type: 'list',
-    message: 'Select project template',
-    choices: TEMPLATE_OPTIONS,
-  },
-  {
-    name: 'project',
-    type: 'input',
-    message: 'What is the name of the project?',
-    validate: function (input: string) {
-      if (/^([a-z@]{1}[a-z\-\.\\\/0-9]{0,213})+$/.test(input)) {
-        return true;
-      }
-      return 'The project name can only have 214 characters and must start with a lowercase letter or an at sign.';
-    },
-  },
-  {
-    name: 'author',
-    type: 'input',
-    message: 'Package Author - Name and Lastname'
-  },
-  {
-    name: 'email',
-    type: 'input',
-    message: 'Author - Email'
-  },
-  {
-    name: 'webpage',
-    type: 'input',
-    message: 'Author - Webpage'
-  }
-];
 
 intro(
-  colors.inverse(`Qwik Library Generator CLI by ${colors.yellow(' Anartz Mugika Ledo - @mugan86 ')}`)
-)
+  colors.inverse(
+    `Qwik Library Generator CLI by ${colors.yellow(
+      ' Anartz Mugika Ledo - @mugan86 '
+    )}`
+  )
+);
 
 const ACTUAL_DIRECTORY = process.cwd();
-inquirer.prompt(QUESTIONS).then((answers) => {
-  // const template = answers['template'];
-  // const project = answers['project'];
+inquirer.prompt(getQuestions(TEMPLATE_OPTIONS)).then((answers) => {
+  
+  // Extract answers all data
   const { project, template, author, email, webpage } = answers;
-  console.log(answers)
 
   const templatePath = path.join(__dirname, 'templates', template);
   const pathTarget = path.join(ACTUAL_DIRECTORY, project);
@@ -68,7 +39,7 @@ inquirer.prompt(QUESTIONS).then((answers) => {
   createDirectoriesFilesContent(templatePath, project, {
     author,
     email,
-    webpage
+    webpage,
   });
 
   postProccess(templatePath, pathTarget);
@@ -78,7 +49,9 @@ function createProject(projectPath: string) {
   // Comprobar que no existe el directorio
   if (fs.existsSync(projectPath)) {
     console.log(
-      chalk.red('The project cannot be created because it already exists. Please try with a different name.')
+      chalk.red(
+        'The project cannot be created because it already exists. Please try with a different name.'
+      )
     );
     return false;
   }
@@ -86,13 +59,17 @@ function createProject(projectPath: string) {
   return true;
 }
 
+/**
+ * Create new project from questions answers and use data to customization our project
+ * @param templatePath Select template path to copy all directory
+ * @param projectName Assign desire project name
+ * @param renderData Dinamically render data to add in package name, author, email, web,...
+ */
 function createDirectoriesFilesContent(
   templatePath: string,
   projectName: string,
   renderData: { author: string; email: string; webpage: string }
 ) {
-
-
   const listFileDirectories = fs.readdirSync(templatePath);
 
   listFileDirectories.forEach((item) => {
@@ -143,8 +120,12 @@ function postProccess(templatePath: string, targetPath: string) {
       console.error('Error al crear el archivo .gitignore.');
     }
     console.log(chalk.green(`Installing the dependencies in ${targetPath}`));
+    console.log(chalk.yellow(`Please wait a moment until the project dependencies are installed... :)`));
     const result = shell.exec('npm install');
+    console.log(chalk.green(`Add all dependencies correctly in ${targetPath}`));
+
     if (result.code != 0) {
+      console.log(chalk.redBright('No dependencies installed, try running `npm install`'));
       return false;
     }
   }
