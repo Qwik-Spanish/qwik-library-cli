@@ -1,7 +1,7 @@
 {
   "name": "<%= projectName %>",
   "version": "0.0.1",
-  "description": "Create a reusable Qwik component library",
+  "description": "Create a reusable Qwik component library with Counter Example",
   "main": "./dist/index.qwik.cjs",
   "qwik": "./dist/index.qwik.mjs",
   "module": "./dist/index.qwik.mjs",
@@ -28,12 +28,12 @@
   "private": false,
   "type": "module",
   "author": {
-    "name": "Anartz Mugika Ledo",
-    "email": "mugan86@gmail.com",
-    "url": "https://github.com/mugan86"
+    "name": "<%= author %>",
+    "email": "<%= email %>",
+    "url": "<%= webpage %>"
   },
   "scripts": {
-    "build": "qwik build && rm -rf ./types",
+    "build": "qwik build",
     "build.lib": "vite build --mode lib",
     "build.types": "tsc --emitDeclarationOnly",
     "dev": "vite --mode ssr",
@@ -58,7 +58,6 @@
     "prettier": "2.8.8",
     "typescript": "5.0.4",
     "undici": "5.22.1",
-    "vite": "4.3.9",
-    "vite-plugin-dts": "^3.0.3"
+    "vite": "4.3.9"
   }
 }

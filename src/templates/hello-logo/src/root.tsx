@@ -9,6 +9,8 @@ export default () => {
         <title>Qwik Blank App</title>
       </head>
       <body>
+        <h2>Example components</h2>
+        <h4>Created by: Anartz Mugika Ledo</h4>
         <Logo
           url='https://qwik.builder.io/'
           alt='Qwik Logo'
