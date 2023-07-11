@@ -9,7 +9,8 @@
     "clean": "rm -rf build && npm cache clean --force",
     "build": "npx tsc && ncp ./src/templates ./build/templates",
     "build:prod": "npm run clean && npm run build",
-    "prod": "npm run build:prod && npm pack"
+    "prod": "npm run build:prod && npm pack",
+    "publish:prod": "npm run prod && npm publish --access public"
   },
   "files": [
     "build"
@@ -17,6 +18,7 @@
   "directories": {
     "lib": "build"
   },
+  "keywords": ["qwik", "qwik-library", "vite", "leaflet maps", "maps", "hello", "custom hooks", "counter"],
   "author": {
     "name": "Anartz Mugika Ledo",
     "email": "mugan86@gmail.com",
