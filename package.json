@@ -1,6 +1,6 @@
 {
   "name": "@mugan86/qwik-library-cli",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Project where different templates with configurations for various Qwik library types are added.",
   "main": "build/index.js",
   "license": "MIT",

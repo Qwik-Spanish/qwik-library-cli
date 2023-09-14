@@ -2,12 +2,13 @@ import { component$, useSignal, useStyles$ } from "@builder.io/qwik";
 
 // Need import from node_modules to add correct styles by default to show map
 // change path depending our level component respect node_modules
-import leafletStyles from "./../node_modules/leaflet/dist/leaflet.css?inline";
+import leafletStyles from "../node_modules/leaflet/dist/leaflet.css?inline";
 import { LeafletMap } from "./components/leaflet-map";
+import { LocationsProps } from "./models/location";
 export default component$(() => {
   useStyles$(leafletStyles);
 
-  const CITIES = [
+  const CITIES: Array<LocationsProps> = [
     {
       name: "Madrid",
       point: [40.4168, -3.7038],
@@ -37,11 +38,16 @@ export default component$(() => {
       <body>
         <h2>Example components</h2>
         <h4>Created by: Anartz Mugika Ledo</h4>
-        {
-          CITIES.map((location, index) => {
-            return <button key={`${index}_${location.name.toLowerCase()}`} onClick$={() => currenLocation.value = CITIES[index]}>{ location.name }</ button>
-          })
-        }
+        {CITIES.map((location, index) => {
+          return (
+            <button
+              key={`${index}_${location.name.toLowerCase()}`}
+              onClick$={() => (currenLocation.value = CITIES[index])}
+            >
+              {location.name}
+            </button>
+          );
+        })}
         <LeafletMap location={currenLocation} />
       </body>
     </>
