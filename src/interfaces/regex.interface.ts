@@ -1,4 +1,4 @@
-export interface IRegexOptions {
+export interface RegexOptions {
     pattern: RegExp;
     message: string;
 }
